@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Bongobin.HclParser/bin/Debug/net6.0
+/.vs/Bongobin.HclParser/v17
+/Bongobin.HclParser/obj
+/Bongobin.HclParser.Tests/bin/Debug/net6.0
+/Bongobin.HclParser.Tests/obj
+*.user
