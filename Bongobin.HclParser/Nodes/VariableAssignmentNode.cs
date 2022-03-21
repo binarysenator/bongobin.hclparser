@@ -1,13 +1,16 @@
-﻿using Bongobin.HclParser;
+﻿using System.Diagnostics;
+using Bongobin.HclParser;
 using Bongobin.HclParser.Parts;
 
 namespace Bongobin.HclParser.Nodes;
 
+[DebuggerDisplay("{Name} = {Value}")]
 public class VariableAssignmentNode : Node, INamed
 {
     private TextHclPart? NamePart { get; set; }
     private AssignmentHclPart? AssignmentPart { get; set; }
     private readonly List<HclPart> _valueParts = new List<HclPart>();
+    private bool _isBlock = false;
 
     public VariableAssignmentNode(TextHclPart part) : base(part)
     {
@@ -38,10 +41,24 @@ public class VariableAssignmentNode : Node, INamed
         // The variable assignment is actually a block.
         if (part is StartBlockHclPart startBlock)
         {
-            // Change this type as this is actually a block?
-            _valueParts.Add(startBlock);
-
-            return this;
+            if (AssignmentPart == null && !_isBlock )
+            {
+                // Change this type as this is actually a block?
+                _isBlock = true;
+                //_valueParts.Add(startBlock);
+                var block = new BlockNode(startBlock);
+                block.Parent = this;
+                block.Handle(startBlock);
+                return Add(block);
+            }
+            //else if (AssignmentPart != null)
+            //{
+            //    _valueParts.Add(startBlock);
+            //    var block = new BlockNode(startBlock);
+            //    block.Parent = this;
+            //    block.Handle(startBlock);
+            //    return Add(block);
+            //}
         }
 
         if (part is EndBlockHclPart endBlock)
@@ -78,4 +95,5 @@ public class VariableAssignmentNode : Node, INamed
 
     public string Name => NamePart?.Text ?? string.Empty;
     public string? Value => string.Join("", _valueParts.Select(v => v.Text));
+    public bool IsBlock => _isBlock;
 }

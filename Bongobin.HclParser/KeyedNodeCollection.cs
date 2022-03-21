@@ -11,11 +11,13 @@ public class KeyedNodeCollection<TNode> where TNode : INamed
 
     public int Count => _nodes.Count();
 
+    protected virtual IEnumerable<TNode> Queryable => _nodes;
+
     public TNode this[string name]
     {
         get
         {
-            return _nodes.First(n => n.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+            return Queryable.First(n => n.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }

@@ -7,4 +7,15 @@ public class VariableAssignmentCollection : KeyedNodeCollection<VariableAssignme
     public VariableAssignmentCollection(IEnumerable<VariableAssignmentNode> nodes) : base(nodes)
     {
     }
+
+    protected override IEnumerable<VariableAssignmentNode> Queryable => base.Queryable.Where(n => !n.IsBlock);
+}
+
+public class BlockCollection : KeyedNodeCollection<VariableAssignmentNode>
+{
+    public BlockCollection(IEnumerable<VariableAssignmentNode> nodes) : base(nodes)
+    {
+    }
+
+    protected override IEnumerable<VariableAssignmentNode> Queryable => base.Queryable.Where(n => n.IsBlock);
 }

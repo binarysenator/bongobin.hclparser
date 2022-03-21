@@ -45,10 +45,12 @@ public class HclDocument
     public void Build()
     {
         Node parent = Root;
+        var partIndex = 0;
 
         foreach (var part in Parts)
         {
             parent = parent.Handle(part);
+            partIndex++;
         }
     }
 }

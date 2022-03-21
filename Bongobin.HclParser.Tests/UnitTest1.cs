@@ -96,6 +96,11 @@ namespace Bongobin.HclParser.Tests
             var tf = "resource \"azurerm_function_app\" \"diag_result_case_publisher\" {\r\n  name                       = join(\"-\", [var.diagnostic_result_case_publisher_config.fa_name, \"function\"])\r\n  location                   = var.diagnostic_result_case_publisher_config.location\r\n  resource_group_name        = var.diagnostic_result_case_publisher_config.rg_name\r\n  app_service_plan_id        = azurerm_app_service_plan.diag_result_case_publisher.id\r\n  storage_account_name       = azurerm_storage_account.diag_order_provider.name\r\n  storage_account_access_key = azurerm_storage_account.diag_order_provider.primary_access_key\r\n  version                    = \"~3\"\r\n  https_only                 = true\r\n\r\n  site_config {\r\n    min_tls_version = \"1.2\"\r\n  }\r\n\r\n  identity {\r\n    type = \"SystemAssigned\"\r\n  }\r\n}";
             var doc = HclDocument.Parse(tf);
             Assert.AreEqual(tf, doc.Text);
+
+            var resource = doc.Root.Resources["diag_result_case_publisher"];
+            var variables = resource.Variables;
+            Assert.AreEqual(8, variables.Count);
+
         }
     }
 }

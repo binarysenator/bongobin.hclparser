@@ -8,12 +8,14 @@ public class BlockNode : Node
     private StartBlockHclPart? StartBlockPart { get; set; }
     private EndBlockHclPart? EndBlockPart { get; set; }
 
-    protected BlockNode(HclPart root) : base(root)
+    public BlockNode(HclPart root) : base(root)
     {
+
     }
 
     public IEnumerable<VariableAssignmentNode> VariableAssignments => Children.OfType<VariableAssignmentNode>();
     public VariableAssignmentCollection Variables => new VariableAssignmentCollection(VariableAssignments);
+    public BlockCollection Blocks => new BlockCollection(VariableAssignments);
 
     public override Node Handle(HclPart part)
     {
@@ -46,7 +48,7 @@ public class BlockNode : Node
                 else
                 {
                     EndBlockPart = endBlockPart;
-                    return this;
+                    return this.Parent ?? this;
                 }
             }
         }
