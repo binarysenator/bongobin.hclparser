@@ -41,7 +41,7 @@ public class VariableAssignmentNode : Node, INamed
         // The variable assignment is actually a block.
         if (part is StartBlockHclPart startBlock)
         {
-            if (AssignmentPart == null && !_isBlock )
+            if ( !_isBlock )
             {
                 // Change this type as this is actually a block?
                 _isBlock = true;
@@ -51,14 +51,6 @@ public class VariableAssignmentNode : Node, INamed
                 block.Handle(startBlock);
                 return Add(block);
             }
-            //else if (AssignmentPart != null)
-            //{
-            //    _valueParts.Add(startBlock);
-            //    var block = new BlockNode(startBlock);
-            //    block.Parent = this;
-            //    block.Handle(startBlock);
-            //    return Add(block);
-            //}
         }
 
         if (part is EndBlockHclPart endBlock)

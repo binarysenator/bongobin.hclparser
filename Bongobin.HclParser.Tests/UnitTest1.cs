@@ -101,6 +101,37 @@ namespace Bongobin.HclParser.Tests
             var variables = resource.Variables;
             Assert.AreEqual(8, variables.Count);
 
+            var blocks = resource.Blocks;
+            Assert.AreEqual(2, blocks.Count);
+
+            var siteconfig = blocks["site_config"];
+            Assert.IsNotNull(siteconfig);
+        }
+
+        [Test]
+        public void Test_ServiceBusTopic()
+        {
+            var tf = "# Service Bus Topics\r\nresource \"azurerm_servicebus_topic\" \"crm-accountplan_accountplanbenefits_topic\" {\r\n  name                = \"crm-accountplan-accountplanbenefits\"\r\n  resource_group_name = data.azurerm_resource_group.resource_group.name\r\n  namespace_name      = azurerm_servicebus_namespace.servicebus_namespace.name\r\n  enable_batched_operations               = true\r\n  support_ordering                        = true\r\n  enable_partitioning = false\r\n}";
+            var doc = HclDocument.Parse(tf);
+            Assert.AreEqual(tf, doc.Text);
+        }
+
+        [Test]
+        public void Test_MultipleVariables()
+        {
+            var tf = "variable \"resource_group\" {\r\n  description = \"The name of the resource group in which to create resources\"\r\n}\r\n\r\nvariable \"location\" {\r\n  description = \"Region where the resource group is created\"\r\n}\r\n\r\nvariable \"environment_suffix\" {\r\n  description = \"The suffix of the environment (dev, test, uat, pro, testing e.t.c)\"\r\n}\r\n\r\nvariable \"service_bus_version\" {\r\n  description = \"The version of the service bus instance\"\r\n}";
+            var doc = HclDocument.Parse(tf);
+            Assert.AreEqual(tf, doc.Text);
+
+            Assert.AreEqual(4, doc.Root.VariableNodes.Count());
+        }
+
+        [Test]
+        public void Test_TopLevelBlock()
+        {
+            var tf = "resource_groups = {\r\n    primary_rg = {\r\n        name   = \"dsb\"\r\n        region = \"region1\"\r\n        tags = {           \r\n        }\r\n    }\r\n}";
+            var doc = HclDocument.Parse(tf);
+            Assert.AreEqual(tf, doc.Text);
         }
     }
 }
