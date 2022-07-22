@@ -34,14 +34,12 @@ public class Parser
         return document;
     }
 
-    private HclPart CreateFrom(char character)
+    private static HclPart CreateFrom(char character)
     {
         if (character == '#')
         {
             return new CommentHclPart(character);
         }
-
-
 
         if (character == '\r')
         {
@@ -83,13 +81,6 @@ public class Parser
             return new EndBracketBlockHclPart(character);
         }
 
-        //if (Char.IsLetterOrDigit(character))
-        //{
-        // Everything else is text?
         return new TextHclPart(character);
-        //}
-
-
-        //throw new NotImplementedException();
     }
 }
