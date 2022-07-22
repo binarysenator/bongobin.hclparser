@@ -20,7 +20,7 @@ jobs:
       run: dotnet tool install --global dotnet-sonarscanner
 
     - name: Begin Sonar scan
-      run: dotnet sonarscanner begin /k:"bongobin.hclparser" /d:sonar.login=${{ secrets.SONAR_TOKEN }}
+      run: dotnet sonarscanner begin /k:"binarysenator_bongobin.hclparser" /o:"binarysenator" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
       
     - name: Restore dependencies
       run: dotnet restore
