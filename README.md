@@ -4,5 +4,4 @@
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=binarysenator_bongobin.hclparser&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=binarysenator_bongobin.hclparser) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=binarysenator_bongobin.hclparser&metric=coverage)](https://sonarcloud.io/summary/new_code?id=binarysenator_bongobin.hclparser)
 
-The BongoBin HCL Parser has been written to help support the updating of Terraform Variable files (tfvars).
-The use of Microsoft's CAF abstraction layer over Terraform relys on tfvar files being a static set of text, this command line tool is intended to help read, merge and modify files after they are joined together.
+The HCL parser is a project which started to attempt to parse the HCL content of the Terrarform language as an experiment before I realised I didn't need to. However, I'll keep this alive. The actual project that came out of this ended up being much simpler. The bongobin/caffee
