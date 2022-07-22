@@ -24,6 +24,12 @@ jobs:
       
     - name: Restore dependencies
       run: dotnet restore
+    
+    - name: Build
+      run: dotnet build --no-restore
+      
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
       
     - name: End Sonar scan
       run: dotnet sonarscanner end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
