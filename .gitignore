@@ -8,3 +8,4 @@
 /Bongobin.HclParser.Tests/bin/Debug/net6.0
 /Bongobin.HclParser.Tests/obj
 *.user
+/.vs/Bongobin.HclParser/FileContentIndex

@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using Bongobin.HclParser;
 using Bongobin.HclParser.Parts;
 
 namespace Bongobin.HclParser.Nodes;
@@ -26,10 +25,8 @@ public class VariableAssignmentNode : Node, INamed
                 AssignmentPart = assignment;
                 return this;
             }
-            else
-            {
-                throw new NotSupportedException();
-            }
+
+            throw new NotSupportedException();
         }
 
         if (part is TextHclPart valuePart)
@@ -39,18 +36,15 @@ public class VariableAssignmentNode : Node, INamed
         }
 
         // The variable assignment is actually a block.
-        if (part is StartBlockHclPart startBlock)
+        if (part is StartBlockHclPart startBlock && !_isBlock)
         {
-            if ( !_isBlock )
+            _isBlock = true;
+            var block = new BlockNode(startBlock)
             {
-                // Change this type as this is actually a block?
-                _isBlock = true;
-                //_valueParts.Add(startBlock);
-                var block = new BlockNode(startBlock);
-                block.Parent = this;
-                block.Handle(startBlock);
-                return Add(block);
-            }
+                Parent = this
+            };
+            block.Handle(startBlock);
+            return Add(block);
         }
 
         if (part is EndBlockHclPart endBlock)
@@ -76,11 +70,6 @@ public class VariableAssignmentNode : Node, INamed
         {
             return Parent ?? this; // Fishy
         }
-
-        //if (part is EndBracketBlockHclPart)
-        //{
-        //    return this.Parent ?? this; // Fishy
-        //}
 
         return base.Handle(part);
     }
