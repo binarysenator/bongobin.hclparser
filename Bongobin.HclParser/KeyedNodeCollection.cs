@@ -9,7 +9,7 @@ public class KeyedNodeCollection<TNode> where TNode : INamed
         _nodes = nodes;
     }
 
-    public int Count => _nodes.Count();
+    public int Count => Queryable.Count();
 
     protected virtual IEnumerable<TNode> Queryable => _nodes;
 

@@ -21,15 +21,19 @@ public class RootNode : Node
         {
             if (part.Text == "data")
             {
-                return Add(new DataSourceNode(part));
+                return Add(new DataSourceNode(part) { Parent = this });
             }
             else if (part.Text == "resource")
             {
-                return Add(new ResourceSourceNode(part));
+                return Add(new ResourceSourceNode(part) { Parent = this });
             }
             else if (part.Text == "variable")
             {
-                return Add(new VariableDeclarationNode(part));
+                return Add(new VariableDeclarationNode(part) { Parent = this });
+            }
+            else if (part is TextHclPart blockPart)
+            {
+                return Add(new VariableAssignmentNode(blockPart) {Parent = this});
             }
         }
 
