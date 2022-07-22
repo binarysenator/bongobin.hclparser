@@ -15,15 +15,15 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
-        
-    - name: Restore dependencies
-      run: dotnet restore
-      
+
     - name: Install Sonar global tool
       run: dotnet tool install --global dotnet-sonarscanner
 
     - name: Begin Sonar scan
-      run: dotnet sonarscanner begin /k:"MySonarProject" /d:sonar.login=${{ secrets.SONAR_TOKEN }}
+      run: dotnet sonarscanner begin /k:"bongobin.hclparser" /d:sonar.login=${{ secrets.SONAR_TOKEN }}
+      
+    - name: Restore dependencies
+      run: dotnet restore
       
     - name: End Sonar scan
       run: dotnet sonarscanner end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
